@@ -1,0 +1,47 @@
+/*-----------------------------------------------Import modules ---------------------------------------*/
+import { FormGroup, FormBuilder, Validators } from '@angular/forms';
+import { HttpClient } from '@angular/common/http';
+import { Router } from '@angular/router';
+import { environment } from 'src/environments/environment';
+
+
+
+export class LoginComponent implements OnInit {
+
+/*-----------------------------------------------Initialise Form Field Variables ---------------------------------------*/
+  email                     
+  password
+
+
+/*-----------------------------Keep http and router module private in constructor ---------------------------------*/
+
+  constructor(private http:HttpClient, private router:Router) {}
+  
+  
+   ngOnInit() {
+   }
+   
+   
+   /*-----------------------------------------------Log API Integration ---------------------------------------*/
+   
+   login(){
+    
+    let data={
+    'email': this.email,
+    'password': this.password
+    }
+    console.log(data);
+    
+    this.http.post(environment.baseUrl+'login',data).subscribe(data=>{
+      debugger;
+      console.log(data);
+      if(data['response']['status_code'] == 403) {
+        alert("Invalid")
+      } else {
+        this.router.navigate(['/dashboard']);
+      }
+    });
+
+  }
+
+}
